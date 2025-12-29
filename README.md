@@ -45,19 +45,4 @@ npm run dev
 
 When prompted by Vite, open http://localhost:5173. The client will call the backend at the default API base URL (configure an alternate URL by setting `VITE_API_BASE_URL`).
 
-### Production-style build
-
-```bash
-# Backend build
-cd backend
-npm run build
-npm start
-
-# Frontend build
-cd ../frontend
-npm run build
-npm run preview
-```
-
-Use these commands to simulate running compiled artifacts or to host the assets with a static file server.
 

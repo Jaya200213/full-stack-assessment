@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import type { Post } from '../types/post';
 import EditPostForm from './EditPostForm';
-
+import { deletePost } from '../services/api'
 type PostCardProps = {
   post: Post;
   onUpdated: (post:Post)=>void;
-  onDeleted: (id: Number) => void;
+  onDeleted: (id: number) => void;
 };
 
 function PostCard({ post, onUpdated, onDeleted }: PostCardProps): JSX.Element {
@@ -35,7 +35,8 @@ function PostCard({ post, onUpdated, onDeleted }: PostCardProps): JSX.Element {
       {excerpt ? <p>{excerpt}</p> : null}
       <button onClick={()=>setEditing(true)}>Edit</button>
       <button onClick={async()=>{
-        
+        await deletePost(post.id);
+        onDeleted(post.id);
       }}>Delete</button>
     </article>
   );

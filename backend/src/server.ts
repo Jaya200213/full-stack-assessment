@@ -36,7 +36,6 @@ async function readPostsFromDisk(): Promise<Post[]> {
 
 async function writePostsToDisk(posts: Post[]): Promise<void> {
   const data = await writeFile(dataFilePath, JSON.stringify(posts,null,2));
-  console.log(data);
   return data;
 }
 app.get('/api/posts', async (_req: Request, res: Response<Post[] | { message: string }>) => {
@@ -66,7 +65,6 @@ app.post('/api/posts',async (_req: Request, res: Response<Post | { message: stri
     }
     posts.push(newPost);
     await writePostsToDisk(posts);
-    console.log(newPost,"newPost");
     res.status(201).json(newPost);
   }
   catch(error){
@@ -89,7 +87,7 @@ app.put('/api/posts/:id',async (_req: Request, res: Response<Post | { message: s
       ..._req.body,
     }
     await writePostsToDisk(posts);
-    res.json(posts[index]);
+    res.status(200).json(posts[index]);
   }
   catch(error){
     console.log("Failed to update the post");
@@ -101,13 +99,12 @@ app.delete('/api/posts/:id',async (_req: Request, res: Response<Post | { message
   try{
     const posts = await readPostsFromDisk();
     const postId = Number(_req.params.id);
-    const updatedPosts = posts.filter((p)=>p.id == postId);
+    const updatedPosts = posts.filter((p)=>p.id !== postId);
     if(updatedPosts.length === posts.length){
       return res.status(404).json({message: "Post not found"});
     }
     await writePostsToDisk(updatedPosts);
-    res.json().send();
-
+    res.status(204).send();
   }
   catch(error){
     console.log("Failed to delete the post");

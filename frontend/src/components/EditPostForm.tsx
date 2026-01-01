@@ -6,10 +6,10 @@ type props = {
     onUpdated: (post : Post)=>void;
     onCancel: ()=>void;
 }
-function EditPostForm({post, onUpdated,onCancel}:props): JSX.Element{
-    const [title,setTitle] = useState("");
-    const [author,setAuthor] = useState("");
-    const [excerpt,setExcerpt] = useState("");
+function EditPostForm({post, onUpdated, onCancel}:props): JSX.Element{
+    const [title,setTitle] = useState(post.title);
+    const [author,setAuthor] = useState(post.author ?? '');
+    const [excerpt,setExcerpt] = useState(post.excerpt ?? '');
     const submit = async(e:React.FormEvent)=>{
         e.preventDefault();
         const updated = await updatePost(post.id,{

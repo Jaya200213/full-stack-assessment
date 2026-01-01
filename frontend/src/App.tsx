@@ -41,9 +41,13 @@ function App(): JSX.Element {
       {status === 'loading' ? <p>Loading posts…</p> : null}
       {status === 'error' ? <p className="error">{errorMessage}</p> : null}
 
-      {status === 'success' ? <PostList posts={posts} onUpdated={function (post: Post): void {
-        throw new Error('Function not implemented.');
-      } } /> : null}
+      {status === 'success' ? <PostList posts={posts} onUpdated={(updated)=>
+        setPosts((p)=>
+          p.map((x)=>(x.id === updated.id ? updated : x))
+      )
+      }
+      onDeleted={(id)=>setPosts((p)=>p.filter((x) => x.id!==id))}
+      /> : null}
     </main>
   );
 }

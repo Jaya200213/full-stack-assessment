@@ -36,14 +36,11 @@ export const updatePost = async( id: number,updates: Partial<Post>) : Promise<Po
   }
   return response.json();
 }
-export const DeletePost = async( id: number,deletes: Partial<Post>) : Promise<Post> => {
+export const deletePost = async( id: number) : Promise<void> => {
   const response = await fetch(`${API_BASE_URL}/api/posts/${id}`,{
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/json'},
-    body: JSON.stringify(deletes),
   });
   if(!response.ok){
     throw new Error(`Failed to update post: ${response.status}`);
   }
-  return response.json();
 }
